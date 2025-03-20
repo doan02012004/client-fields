@@ -1,0 +1,23 @@
+@layer theme, base, antd, components, utilities;
+
+@import "tailwindcss";
+@layer reset, antd;
+/* @import url(reset.css) layer(reset); */
+
+
+body{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    @apply px-3 mx-auto xl:px-0
+}
+
+.btn-primary {
+    @apply border border-gray-500 bg-black text-white transition-colors hover:text-black hover:bg-white
+}
+.btn-secondary{
+    @apply border border-gray-500 bg-white text-black transition-colors hover:text-white hover:bg-black
+}
