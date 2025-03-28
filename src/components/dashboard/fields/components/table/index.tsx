@@ -1,34 +1,64 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Button, Table } from 'antd'
-import React from 'react'
+import { Button, Table, Tag } from 'antd'
+import { BranchType, FieldResponeType } from '../../../../../types/api.type';
+import { Link } from 'react-router-dom';
 
-const TableFieldsAdmin = () => {
-    const data = Array.from({ length: 20 }, (_, i) => ({
-        key: i,
-        name: `Sân bóng ${i + 1}`,
-        address: `Địa chỉ ${i + 1}`,
-        price: `${(i + 1) * 100000} VND`,
-      }));
-    
-      const columns = [
-        { title: "Tên sân", dataIndex: "name", key: "name" },
-        { title: "Địa chỉ", dataIndex: "address", key: "address" },
-        { title: "Giá tiền", dataIndex: "price", key: "price" },
-        {
-          title: "Hành động",
-          key: "action",
-          render: (_, record) => (
-            <div className="flex gap-2">
-              <Button icon={<EditOutlined />} />
-              <Button icon={<DeleteOutlined />} danger />
-            </div>
-          ),
-        },
-      ];
+
+type TableFieldsAdminProps = {
+  fields: FieldResponeType[]
+}
+
+const TableFieldsAdmin = ({ fields }: TableFieldsAdminProps) => {
+
+
+  const columns = [
+    {
+      title: "Ảnh sân",
+      dataIndex: "images",
+      key: "images",
+      render: (images: string[]) => <img src={images[0]} alt="Sân bóng" className="w-20 h-16 object-cover rounded" />,
+    },
+    { title: "Tên sân", dataIndex: "name", key: "name" },
+    {
+      title: "Địa chỉ",
+      dataIndex: "branch",
+      key: "branch",
+      render: (branch:BranchType) => (
+       <p className='max-w-40'>{branch.address_text}</p>
+      ),
+    },
+    {
+      title: "Cơ sở",
+      dataIndex: "branch",
+      key: "branch",
+      render: (branch:BranchType) => (
+       <p className='max-w-40'>{branch.name}</p>
+      ),
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "status",
+      key: "status",
+      render: (status:boolean) => (
+        <Tag color={status === true ? "green" : "red"}>{status==true?'Hoạt động':'Tạm ngừng'}</Tag>
+      ),
+    },
+    {
+      title: "Hành động",
+      dataIndex: "_id",
+      key: "action",
+      render: (_id:string) => (
+        <div className="flex gap-2">
+          <Link className='block' to={`/admin/fields/edit/${_id}`}><Button icon={<EditOutlined />} /></Link>
+          <Button icon={<DeleteOutlined />} danger />
+        </div>
+      ),
+    },
+  ];
   return (
     <div className="bg-white p-4 rounded shadow">
-        <Table dataSource={data} columns={columns} pagination={false} />
-      </div>
+      <Table dataSource={fields} columns={columns} pagination={false} />
+    </div>
   )
 }
 

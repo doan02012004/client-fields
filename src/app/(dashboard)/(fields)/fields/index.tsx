@@ -1,5 +1,5 @@
 
-import FieldsAdminTemplates from '../../../components/dashboard/fields/templates'
+import FieldsAdminTemplates from '../../../../components/dashboard/fields/templates'
 
 const FieldsAdminPage = () => {
   return <FieldsAdminTemplates />

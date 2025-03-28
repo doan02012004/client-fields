@@ -24,7 +24,7 @@ const listBanners = [
 
 const BannerHomePage = () => {
     return (
-        <section className='container'>
+        <section className='container mb-8'>
             <Swiper pagination={true}
              modules={[Pagination,Autoplay]}
              autoplay={{

@@ -1,12 +1,13 @@
-import React from 'react'
+
 import BannerHomePage from './banner'
-import FavoriteFielsFootball from './favorite'
+import ListFieldBlogTemPlates from './field-blog'
+
 
 const HomeTemplates = () => {
   return (
     <>
     <BannerHomePage />
-    <FavoriteFielsFootball />
+    <ListFieldBlogTemPlates />
     </>
   )
 }

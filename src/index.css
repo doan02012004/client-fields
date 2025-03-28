@@ -10,14 +10,30 @@ body{
     margin: 0;
     box-sizing: border-box;
 }
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+    -webkit-appearance: none; /* Chrome, Safari, Edge */
+    appearance: none; /* Các trình duyệt hỗ trợ chuẩn */
+  }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
 .container{
     @apply px-3 mx-auto xl:px-0
 }
 
 .btn-primary {
-    @apply border border-gray-500 bg-black text-white transition-colors hover:text-black hover:bg-white
+    @apply border border-gray-500 bg-black cursor-pointer text-white transition-colors hover:text-black hover:bg-white
+}
+.btn-primary-green {
+    @apply border border-gray-500 bg-green-600 cursor-pointer text-white transition-colors hover:text-green-600 hover:bg-white hover:border-green-600
 }
 .btn-secondary{
-    @apply border border-gray-500 bg-white text-black transition-colors hover:text-white hover:bg-black
+    @apply border border-gray-500 bg-white cursor-pointer text-black transition-colors hover:text-white hover:bg-black
+}
+.btn-secondary-green{
+    @apply border border-green-500 bg-white cursor-pointer text-white transition-colors hover:text-white hover:bg-green-600 hover:border-gray-500
 }
