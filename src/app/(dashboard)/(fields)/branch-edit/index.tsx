@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { BranchPayloadType } from "../../../../types/api.type"
 import { getBranchByIdQueryFn } from "../../../../libs/data/branch"
-import EditBranchAdminTemplates from "../../../../components/dashboard/branch-edit/templates"
+import EditBranchAdminTemplates from "../../../../components/dashboard/(branchs)/branch-edit/templates"
 
 
 const EditBranchAdminPage = () => {
@@ -21,7 +21,8 @@ const EditBranchAdminPage = () => {
             endTime: 0,
             startTime: 0,
             title: ''
-        }
+        },
+        selectTimes:[]
     })
     const param = useParams() as { id: string }
 

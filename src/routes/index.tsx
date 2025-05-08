@@ -16,6 +16,15 @@ import EditFieldsAdminPage from '../app/(dashboard)/(fields)/field-edit'
 import AddBranchAdminPage from '../app/(dashboard)/(fields)/branch-add'
 import ListBranchAdminPage from '../app/(dashboard)/(fields)/branchs'
 import EditBranchAdminPage from '../app/(dashboard)/(fields)/branch-edit'
+import ThankOrderFieldPage from '../app/(root)/thanks'
+import ListOrderFieldAdminPage from '../app/(dashboard)/(orders)/(fields)/list'
+import EditOrderFieldAdminPage from '../app/(dashboard)/(orders)/(fields)/edit'
+import CustomerLayout from '../components/layouts/CustomerLayout'
+import CustomerOrderListPage from '../app/(root)/customer/order_list'
+import CustomerInfoPage from '../app/(root)/customer/info'
+import CustomerOrderDetailPage from '../app/(root)/customer/order_detail'
+import ListUserAdminPage from '../app/(dashboard)/(users)/list'
+import AddUserAdminPage from '../app/(dashboard)/(users)/add'
 
 const RoutesApp = () => {
     return (
@@ -31,8 +40,17 @@ const RoutesApp = () => {
             <Route path='/' element={<RootLayout />} >
                 <Route index element={<HomePage />} />
                 <Route path='list-fields' element={<ListFieldsPage />} />
-                <Route path='fields-details/:slug' element={<FieldsDetailsPage />} />
+                <Route path='field-detail/:slug' element={<FieldsDetailsPage />} />
                 <Route path='checkout' element={<CheckoutPage />} />
+                <Route path='thanks' element={<ThankOrderFieldPage />} />
+
+                {/* customer  */}
+                <Route path='customer' element={<CustomerLayout />} >
+                    <Route index element={<Navigate to="info" />} />
+                    <Route path='info' element={<CustomerInfoPage />} />
+                    <Route path='order_list' element={<CustomerOrderListPage />} />
+                    <Route path='order_detail/:orderCode' element={<CustomerOrderDetailPage />} />
+                </Route>
             </Route>
 
             {/* Admin  */}
@@ -44,7 +62,12 @@ const RoutesApp = () => {
                 <Route path='branchs' element={<ListBranchAdminPage />} />
                 <Route path='branchs/add' element={<AddBranchAdminPage />} />
                 <Route path='branchs/edit/:id' element={<EditBranchAdminPage />} />
-                <Route path='users' element={<SignUpPage />} />
+                <Route path='order-fields' element={<ListOrderFieldAdminPage />} />
+                <Route path='order-fields/detail/:id' element={<EditOrderFieldAdminPage />} />
+
+                {/* user  */}
+                <Route path='users' element={<ListUserAdminPage />} />
+                <Route path='users/add' element={<AddUserAdminPage />} />
             </Route>
         </Routes>
     )

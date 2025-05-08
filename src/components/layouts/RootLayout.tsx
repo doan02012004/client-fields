@@ -11,7 +11,7 @@ const RootLayout = () => {
     return (
         <div className='mb-16 lg:mb-0'>
             <Header />
-            <div className='pt-20'>
+            <div className='pt-20 lg:pt-[100px]'>
                 <Outlet />
             </div>
             <HeaderMobile />

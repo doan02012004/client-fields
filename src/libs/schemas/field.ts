@@ -3,8 +3,7 @@ import { z } from "zod";
 const fieldItemFormAddSchema = z.object({
     name: z.string().min(3).max(50),
     fieldId: z.string().optional(),
-    startDayInWeek: z.number().min(0),
-    endDayInWeek: z.number().min(0),
+    dayInWeek: z.array(z.number()),
     startTime: z.number().min(0),
     endTime: z.number().min(0),
     title: z.string().min(1),

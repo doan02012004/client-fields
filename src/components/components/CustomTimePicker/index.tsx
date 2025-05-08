@@ -3,7 +3,9 @@ import { useEffect, useState } from "react"
 type CustomTimePickerProps = {
     wrapperClassname?: string,
     value?: number,
-    disabled?: boolean
+    disabled?: boolean,
+    maxMinutes?: number,
+    minMinutes?: number,
     onChange?: (value: number) => void
 }
 const listHours = Array.from({ length: 25 }, (_, i) => ({
@@ -18,10 +20,9 @@ const listMinutes = [0, 15, 30, 45].map(min => ({
 interface Time {
     value: number, label: string
 }
-const CustomTimePicker = ({ wrapperClassname = 'w-full', disabled = false, value = 0, onChange }: CustomTimePickerProps) => {
+const CustomTimePicker = ({ wrapperClassname = 'w-full', disabled = false, value = 0, onChange, minMinutes = 0, maxMinutes = 1440 }: CustomTimePickerProps) => {
     const [currentHours, setCurrentHours] = useState<Time>({ label: '00', value: 0 })
     const [currentMinutes, setCurrentMinutes] = useState<Time>({ label: '00', value: 0 })
-
     useEffect(() => {
         if (value <= 1440) {
             const hours = Math.floor(value / 60)
@@ -47,9 +48,9 @@ const CustomTimePicker = ({ wrapperClassname = 'w-full', disabled = false, value
     const onChangeHours = (hours: Time) => {
         if (onChange) {
             const minutesValue = generateMinutes(hours.value, currentMinutes.value)
-            if(minutesValue > 1440){
+            if (minutesValue > 1440) {
                 onChange(1440)
-            }else{
+            } else {
                 onChange(minutesValue)
             }
         }
@@ -61,8 +62,27 @@ const CustomTimePicker = ({ wrapperClassname = 'w-full', disabled = false, value
             onChange(minutesValue)
         }
         setCurrentMinutes(minutes)
-        
+
     }
+
+    const checkDisableHours = (hours: number) => {
+        if (minMinutes == 0 && maxMinutes == 1440) return false
+        const caculateMinutes = hours * 60 + currentMinutes.value
+        if (minMinutes <= caculateMinutes && caculateMinutes <= maxMinutes) {
+            return false
+        }
+        return true
+    }
+
+    const checkDisableMinutes = (minutes: number) => {
+        if (minMinutes == 0 && maxMinutes == 1440) return false
+        const caculateMinutes = currentHours.value * 60 + minutes
+        if (minMinutes <= caculateMinutes && caculateMinutes <= maxMinutes) {
+            return false
+        }
+        return true
+    }
+
     return (
         <div className={` relative group  ${wrapperClassname}`}>
             <div className={`flex items-center gap-1 p-2 text-xl ${disabled ? 'bg-gray-100' : "cursor-pointer"}`}>
@@ -76,7 +96,16 @@ const CustomTimePicker = ({ wrapperClassname = 'w-full', disabled = false, value
                         <span className="text-gray-400 block">Giờ</span>
                         <div className="h-32 w-20 overflow-y-auto">
                             {listHours.map((hours) => (
-                                <button type="button" onClick={() => onChangeHours(hours)} key={hours.value} className={`${currentHours.value == hours.value && 'bg-gray-200'} px-2 py-1 w-full cursor-pointer hover:bg-gray-200`}>{hours.label}</button>
+                                <button
+                                    type="button"
+                                    disabled={checkDisableHours(hours.value)}
+                                    onClick={() => onChangeHours(hours)} key={hours.value}
+                                    className={`${(checkDisableHours(hours.value)) ? 'bg-gray-100'
+                                        : `cursor-pointer ${currentHours.value == hours.value ? 'bg-blue-500 text-white hover:bg-blue-400' : 'hover:bg-gray-100'}`}
+                                      px-2 py-1 w-full `}
+                                >
+                                    {hours.label}
+                                </button>
                             ))}
                         </div>
                     </div>
@@ -84,7 +113,17 @@ const CustomTimePicker = ({ wrapperClassname = 'w-full', disabled = false, value
                         <span className="text-gray-400 block">Phút</span>
                         <div className="h-32 w-20 overflow-y-auto">
                             {listMinutes.map((minutes) => (
-                                <button disabled={currentHours.value >=24} type="button" onClick={() => onChangeMinutes(minutes)} key={minutes.value} className={`${(currentMinutes.value == minutes.value|| currentHours.value >=24)? 'bg-gray-200': 'cursor-pointer'} px-2 py-1 w-full hover:bg-gray-200`}>{minutes.label}</button>
+                                <button
+                                    disabled={currentHours.value >= 24 || checkDisableMinutes(minutes.value)}
+                                    type="button"
+                                    onClick={() => onChangeMinutes(minutes)}
+                                    key={minutes.value}
+                                    className={`${(currentHours.value >= 24 || checkDisableMinutes(minutes.value)) ? 'bg-gray-100'
+                                        : `cursor-pointer ${currentMinutes.value == minutes.value && 'bg-blue-500 text-white hover:bg-blue-400'}`}
+                                      px-2 py-1 w-full `}
+                                >
+                                    {minutes.label}
+                                </button>
                             ))}
                         </div>
                     </div>

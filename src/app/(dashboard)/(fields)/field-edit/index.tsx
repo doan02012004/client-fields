@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import EditFieldsAdminTemplates from '../../../../components/dashboard/field-edit/templates'
+import EditFieldsAdminTemplates from '../../../../components/dashboard/(fields)/field-edit/templates'
 import { useNavigate, useParams } from 'react-router-dom'
 import { FieldResponeType } from '../../../../types/api.type'
 import CustomLoadingAdmin from '../../../../components/dashboard/components/custom-loading'

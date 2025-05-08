@@ -1,5 +1,5 @@
 
-import ListBranchAdminTemplate from '../../../../components/dashboard/branchs/templates'
+import ListBranchAdminTemplate from '../../../../components/dashboard/(branchs)/branchs/templates'
 
 const ListBranchAdminPage = () => {
   return (

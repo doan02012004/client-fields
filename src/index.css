@@ -22,7 +22,7 @@ input[type="number"] {
   }
 
 .container{
-    @apply px-3 mx-auto xl:px-0
+    @apply px-3 mx-auto xl:px-20
 }
 
 .btn-primary {
@@ -37,3 +37,40 @@ input[type="number"] {
 .btn-secondary-green{
     @apply border border-green-500 bg-white cursor-pointer text-white transition-colors hover:text-white hover:bg-green-600 hover:border-gray-500
 }
+
+.btn-gradient-primary{
+     @apply border-[#BCBCBC] border rounded-lg text-white bg-gradient-to-br from-[#13C000] to-[#007A2B] cursor-pointer transition-transform duration-300 ease-in-out
+}
+.btn-default {
+    @apply border-[#BCBCBC] border rounded-lg text-[#011702]  cursor-pointer  transition-transform duration-300 ease-in-out 
+}
+.drop-shadow-primary{
+    box-shadow: 0px 16px 32px -16px #13C000;
+}
+.drop-shadow-secondary{
+    box-shadow: 0px 16px 32px -16px #011702;
+}
+.drop-shadow-primary-xs{
+    box-shadow: 0px 4px 8px 0px rgba(19, 192, 0, 0.25);
+}
+
+.heading-1 {
+    @apply text-4xl font-bold leading-tight
+}
+.heading-2 {
+    @apply text-3xl font-bold leading-snug
+}
+.heading-3 {
+    @apply text-2xl font-semibold leading-snug
+}
+.heading-4 {
+    @apply text-xl font-semibold leading-relaxed
+}
+.heading-5 {
+    @apply text-lg font-medium leading-relaxed
+}
+
+
+.swiper-pagination-bullet-active {
+    background-color: #ffffff !important;
+  }

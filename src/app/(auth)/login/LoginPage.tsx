@@ -13,7 +13,7 @@ const LoginPage = () => {
                 {/* Link Đăng ký */}
                 <p className="my-4 text-center text-sm text-white">
                     Chưa có tài khoản?{" "}
-                    <Link to="/auth/signup" className="font-semibold text-yellow-300 hover:text-yellow-400">
+                    <Link to="/auth/signup" className="font-semibold block text-yellow-300 hover:text-yellow-400">
                         Đăng ký ngay
                     </Link>
                 </p>

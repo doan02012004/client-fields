@@ -1,4 +1,4 @@
-import { FieldPostPayloadType, FieldResponeType } from "../../types/api.type"
+import { FieldPostPayloadType, FieldResponeType, OrderFieldResponseFieldDetail } from "../../types/api.type"
 import instanceAxios from "../instance"
 
 export const CreateFieldMutationFn = async (data:FieldPostPayloadType) => {
@@ -18,5 +18,15 @@ export const getFieldByIdQueryFn = async(id:string):Promise<{success:boolean,dat
 
 export const UpdateFieldMutationFn = async (id:string,data:FieldPostPayloadType) => {
     const res = await instanceAxios.put(`/fields/update/${id}`,data)
+    return res.data
+}
+
+export const getAllOrderFieldByDateFn = async(branchId:string,date:string): Promise<{success:boolean,data:OrderFieldResponseFieldDetail[]}> => {
+    const res = await instanceAxios.get('/fields/date-booking',{
+        params:{
+            branchId,
+            date
+        }
+    })
     return res.data
 }

@@ -14,5 +14,11 @@ export const branchFormAddSchema = z.object({
         startTime:z.number().min(0),
         endTime: z.number().min(0), 
         title:z.string().min(0)
-    })
+    }),
+    selectTimes:z.array(z.object({
+        _id:z.string().optional(),
+        startTime:z.number().min(0).max(1440), 
+        endTime: z.number().min(0).max(1440),
+        text:z.string().min(0),
+    })).min(1)
 })

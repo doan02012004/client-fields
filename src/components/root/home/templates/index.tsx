@@ -1,13 +1,20 @@
 
+import ServicesTemplates from '../../components/services/templates'
 import BannerHomePage from './banner'
-import ListFieldBlogTemPlates from './field-blog'
+import FeaturedTemplate from './features'
+import ListFieldTemPlates from './field-blog'
+import TestimonialsTemplate from './testimonial'
+
 
 
 const HomeTemplates = () => {
   return (
     <>
-    <BannerHomePage />
-    <ListFieldBlogTemPlates />
+      <BannerHomePage />
+      <FeaturedTemplate />
+      <ListFieldTemPlates />
+      <TestimonialsTemplate />
+      <ServicesTemplates />
     </>
   )
 }

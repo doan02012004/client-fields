@@ -6,34 +6,25 @@ import 'swiper/css/pagination';
 
 const listBanners = [
     {
-        url:'https://picsum.photos/id/20/1500/500'
+        url:'/assets/images/sanbong3.jpg'
     },
     {
-        url:'https://picsum.photos/id/21/1500/500'
-    },
-    {
-        url:'https://picsum.photos/id/22/1500/500'
-    },
-    {
-        url:'https://picsum.photos/id/23/1500/500'
-    },
-    {
-        url:'https://picsum.photos/id/24/1500/500'
-    },
+        url:'/assets/images/sanbong2.jpg'
+    }
 ]
 
 const BannerHomePage = () => {
     return (
-        <section className='container mb-8'>
+        <section className='container mb-20'>
             <Swiper pagination={true}
              modules={[Pagination,Autoplay]}
              autoplay={{
                 delay: 3000,
                 pauseOnMouseEnter: true,
               }}
-              className='h-[500px]' >
+              className='h-[450px] md:h-[470px] xl:h-[570px]' >
                {listBanners.map((item) => (
-                <SwiperSlide className='h-full w-full'>
+                <SwiperSlide key={item.url} className='h-full w-full'>
                     <div className={`block h-full w-full cursor-pointer`}>
                         <img src={item.url} alt="" className=' object-cover w-full h-full' />
                     </div>

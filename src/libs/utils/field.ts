@@ -37,8 +37,7 @@ export const generateRangePrices = (arrayWeek: TimeWeek[], rangeTimes: RangeTime
             const findRangePrice = currentRangePrices.find((item) =>
                 item.startTime == rangeTime.startTime
                 && item.endTime == rangeTime.endTime
-                && item.startDayInWeek == week.from
-                && item.endDayInWeek == week.to)
+                && item.dayInWeek.length == week.values.length)
             if (findRangePrice) {
                 rangePrices.push(findRangePrice)
             } else {
@@ -46,9 +45,8 @@ export const generateRangePrices = (arrayWeek: TimeWeek[], rangeTimes: RangeTime
                     _id: generateId(),
                     name: rangeTime.text,
                     startTime: rangeTime.startTime,
-                    endTime: rangeTime.endTime,
-                    startDayInWeek: week.from,
-                    endDayInWeek: week.to,
+                    endTime:rangeTime.endTime,
+                    dayInWeek: week.values,
                     fieldId: '',
                     price: 0,
                     title: rangeTime.text,

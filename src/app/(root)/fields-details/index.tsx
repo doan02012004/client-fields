@@ -1,11 +1,11 @@
 
-// import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import FieldsDetailsTemplates from '../../../components/root/fields-details/templates'
 
 const FieldsDetailsPage = () => {
-    // const params= useParams()
-    // console.log(params)
-  return <FieldsDetailsTemplates />
+    const {slug}= useParams()
+    
+  return <FieldsDetailsTemplates slug={slug} />
 }
 
 export default FieldsDetailsPage

@@ -1,4 +1,5 @@
-import { BranchPayloadType, BranchType } from "../../types/api.type";
+import { BranchDetailsType, BranchPayloadType, BranchType, CheckBookingPayload, CheckBookingResponseType } from "../../types/api.type";
+import { queryGetBranchBySlugType } from "../hooks/branch";
 import instanceAxios from "../instance";
 
 export const CreateBranchMutationFn = async(data:BranchPayloadType) => {
@@ -18,5 +19,18 @@ export const getBranchByIdQueryFn = async(id:string) => {
 
 export const UpdateBranchByIdMutationFn = async(id:string,data:BranchPayloadType) => {
     const res = await instanceAxios.put(`/branchs/update/${id}`,data)
+    return res.data
+}
+
+export const getBranchBySlugWebQueryFn = async(query:queryGetBranchBySlugType):Promise<{success:boolean,data:BranchDetailsType}> => {
+    const res = await instanceAxios.get(`/branchs/details/web/${query.slug}`,{
+        params:query
+    })
+    return res.data
+}
+
+
+export const CheckBookingFieldMutationFn = async(data:CheckBookingPayload):Promise<{success:string,data:CheckBookingResponseType}> => {
+    const res = await instanceAxios.post(`/branchs/check-booking`,data)
     return res.data
 }

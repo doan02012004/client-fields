@@ -1,5 +1,5 @@
 
-import AddFieldAdminTemplates from '../../../../components/dashboard/field-add/templates'
+import AddFieldAdminTemplates from '../../../../components/dashboard/(fields)/field-add/templates'
 
 const AddFieldAdminPage = () => {
   return <AddFieldAdminTemplates />

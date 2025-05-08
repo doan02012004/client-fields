@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+
 import FormSignUp from "../../../components/auth/templates/FormSignUp"
 
 
@@ -10,15 +10,7 @@ const SignUpPage = () => {
             Đăng ký
         </h2>
         <FormSignUp />
-        {/* Link Đăng ký */}
-        <p className="my-4 text-center text-sm text-white">
-            <Link to="/auth/login" className="font-semibold text-yellow-300 hover:text-yellow-400">
-                Đăng nhập
-            </Link>
-        </p>
-        <Link to={'/'} className="block text-blue-600 text-center underline">
-            Quay lại trang chủ
-        </Link>
+       
     </div>
 </div>
   )

@@ -1,4 +1,4 @@
-import AddBranchAdminTemplates from "../../../../components/dashboard/branch-add/templates"
+import AddBranchAdminTemplates from "../../../../components/dashboard/(branchs)/branch-add/templates"
 
 
 const AddBranchAdminPage = () => {

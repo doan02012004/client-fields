@@ -1,5 +1,5 @@
 import { MutationKey, QueryKey, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CreateFieldMutationFn, getAllFieldQueryFn, UpdateFieldMutationFn } from "../../data/field";
+import { CreateFieldMutationFn, getAllFieldQueryFn, getAllOrderFieldByDateFn, UpdateFieldMutationFn } from "../../data/field";
 import { useNavigate } from "react-router-dom";
 import { FieldPostPayloadType } from "../../../types/api.type";
 import { message } from "antd";
@@ -49,5 +49,13 @@ export const useUpdateFieldMutation = () => {
             message.error('Cập nhật sân bóng thất bại !')
             console.log('data-error', error)
         },
+    })
+}
+
+export const useGetAllOrderFieldByDateQuery = ({branchId,date}:{branchId:string, date:string}) => {
+    const queryKey:QueryKey = ['field-detail-orders',{branchId,date}]
+    return useQuery({
+        queryKey,
+        queryFn: () => getAllOrderFieldByDateFn(branchId,date)
     })
 }

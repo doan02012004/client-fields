@@ -1,5 +1,5 @@
 import { MutationKey, QueryKey, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { CreateBranchMutationFn, getAllBranchQueryFn, UpdateBranchByIdMutationFn } from "../../data/branch"
+import { CreateBranchMutationFn, getAllBranchQueryFn, getBranchBySlugWebQueryFn, UpdateBranchByIdMutationFn } from "../../data/branch"
 import { BranchPayloadType } from "../../../types/api.type"
 import { useNavigate } from "react-router-dom"
 import { message } from "antd"
@@ -47,5 +47,19 @@ export const useUpdateBranchMutation = () => {
             message.error('Cập nhật thất bại !')
             console.log('data-error',error)
         },
+    })
+}
+
+export interface queryGetBranchBySlugType {
+    slug:string,
+    selectedFieldId:string|null,
+    selectedDate?:string|null,
+    selectedTimeId:string|null
+}
+export const useGetBranchBySlugQuery = (query:queryGetBranchBySlugType) => {
+    const customQueryKey = [...queryKey,query]
+    return useQuery({
+        queryKey:customQueryKey,
+        queryFn: () => getBranchBySlugWebQueryFn(query)
     })
 }

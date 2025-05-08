@@ -46,18 +46,18 @@ const SidebarAdmin = () => {
             children: [
                 {
                     key: '2.1',
-                    label: <Link to={'/admin/branchs'}>Danh sách người dùng</Link>,
+                    label: <Link to={'/admin/users'}>Danh sách người dùng</Link>,
                 },
                 {
                     key: '2.2',
-                    label: <Link to={'/admin/fields'}>Thêm người dùng</Link>,
+                    label: <Link to={'/admin/users/add'}>Thêm người dùng</Link>,
                 }
             ]
         },
         {
             key: '4',
             icon: <ListOrderedIcon />,
-            label: <Link to={'/admin/orders/fields'}>Q.lý đơn đặt sân</Link>
+            label: <Link to={'/admin/order-fields'}>Q.lý đơn đặt sân</Link>
         },
     ]
     return (
