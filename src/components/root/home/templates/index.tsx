@@ -1,4 +1,5 @@
 
+import { useEffect } from 'react'
 import ServicesTemplates from '../../components/services/templates'
 import BannerHomePage from './banner'
 import FeaturedTemplate from './features'
@@ -8,6 +9,9 @@ import TestimonialsTemplate from './testimonial'
 
 
 const HomeTemplates = () => {
+  useEffect(() => {
+    document.title = 'Play Pitch'
+  },[])
   return (
     <>
       <BannerHomePage />

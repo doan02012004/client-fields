@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table, Select, Pagination } from 'antd';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useGetAllOrderFieldAdminQuery } from '../../../../../../libs/hooks/order-field';
-import { TimeInfoType } from '../../../../../../types/api.type';
+import { OrderFieldResponseAdmin, StatusOrderField, TimeInfoType } from '../../../../../../types/api.type';
 import { dayInWeek, formatPrice, generateStatus } from '../../../../../../libs/constan';
 
 
@@ -10,20 +10,25 @@ const { Option } = Select;
 
 
 const ListOrderFieldAdminTemplates = () => {
-
+  const [statusOrder,setStatusOrder] = useState<StatusOrderField | 'all'>('all')
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = searchParams.get('page') ? Number(searchParams.get('page')) : 1
+  const status = searchParams.get('status') as StatusOrderField | "all" || undefined
   const [pageSize, setPageSize] = useState(5);
-  const { data, isLoading, isError } = useGetAllOrderFieldAdminQuery({ limit: pageSize, page: currentPage })
+  const { data } = useGetAllOrderFieldAdminQuery({ limit: pageSize, page: currentPage,statusBooking:status })
 
-
+  useEffect(() => {
+    if(status){
+      setStatusOrder(status)
+    }
+  },[status])
 
 
   const orders = data?.data || [];
   const customeOrders = orders.map((order) => ({
     ...order,
     key: order._id,
-  }));
+  })) as OrderFieldResponseAdmin[];
 
 
   const handlePageChange = (page: number) => {
@@ -31,13 +36,19 @@ const ListOrderFieldAdminTemplates = () => {
     setSearchParams(searchParams);
   };
 
+  
+    const onChangeStatusFilter = (value: StatusOrderField|'all') => {
+      setStatusOrder(value)
+      searchParams.set('status', value)
+      setSearchParams(searchParams)
+    }
 
   const columns = [
     {
       title: 'Mã đơn đặt sân',
       dataIndex: 'orderCode',
       key: 'orderCode',
-      render: (orderCode: string,record) => <Link to={`/admin/order-fields/detail/${record._id}`} className=' hover:underline'>{orderCode}</Link>,
+      render: (orderCode: string,record:OrderFieldResponseAdmin) => <Link to={`/admin/order-fields/detail/${record._id}`} className=' hover:underline'>{orderCode}</Link>,
     },
     {
       title: 'Khách hàng',
@@ -50,11 +61,11 @@ const ListOrderFieldAdminTemplates = () => {
       title: 'Tên sân',
       dataIndex: 'branchId',
       key: 'branchId',
-      render: (branch: { _id: string, name: string }, record) => (
+      render: (branch: { _id: string, name: string }, record:OrderFieldResponseAdmin) => (
         <div className='flex items-center gap-2'>
-          <Link to={`/admin/fields/${branch._id}`} className='block text-black hover:underline'>{branch.name}</Link>
+          <Link to={`/admin/branchs/edit/${branch._id}`} className='block text-black hover:underline'>{branch.name}</Link>
           -
-          <Link to={`/admin/fields/${record.fieldId._id}`} className='block text-black hover:underline'>{record.fieldId.name}</Link>
+          <Link to={`/admin/fields/edit/${record.fieldId._id}`} className='block text-black hover:underline'>{record.fieldId.name}</Link>
         </div>
       ),
     },
@@ -68,7 +79,7 @@ const ListOrderFieldAdminTemplates = () => {
       title: 'Ngày đặt',
       dataIndex: 'dayBookings',
       key: 'dayBookings',
-      render: (dayBookings: string[], record) => (
+      render: (dayBookings: string[], record:OrderFieldResponseAdmin) => (
         <p>
           <span>
             {dayInWeek[record.dayNumber]}
@@ -83,7 +94,7 @@ const ListOrderFieldAdminTemplates = () => {
       title: 'Giá sân',
       dataIndex: 'priceDeposit',
       key: 'priceDeposit',
-      render: (priceDeposit: number, record) => (
+      render: (priceDeposit: number, record:OrderFieldResponseAdmin) => (
         <div>
           <p>Tiền cọc : <span className='text-red-500 font-medium'>{formatPrice(priceDeposit)}</span></p>
           <p>Giá sân : <span className='text-red-500 font-medium'>{formatPrice(record.totalPrice)}</span></p>
@@ -114,14 +125,27 @@ const ListOrderFieldAdminTemplates = () => {
       <div className="flex flex-wrap items-center gap-4 mb-6">
 
         <Select
-          defaultValue="all"
-          onChange={(value) => console.log('valueFilter', value)}
+          value={statusOrder}
+          onChange={(value) =>onChangeStatusFilter(value)}
           className="w-full sm:w-auto"
-        >
-          <Option value="all">Tất cả trạng thái</Option>
-          <Option value="Đã xác nhận">Đã xác nhận</Option>
-          <Option value="Chờ xác nhận">Chờ xác nhận</Option>
-        </Select>
+          options={[
+             {
+              label:'Tất cả đơn đặt sân', value:"all"
+            },
+            {
+              label:'Chờ xác nhận', value:"pending"
+            },
+             {
+              label:'Đã xác nhận', value:"confirmed"
+            },
+             {
+              label:'Hoàn thành', value:"completed"
+            },
+             {
+              label:'Hoàn tiền', value:"refund"
+            },
+          ]}
+        />
       </div>
 
       {/* Bảng danh sách */}

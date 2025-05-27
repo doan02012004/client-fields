@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
          {/* Cột 3: Mạng xã hội */}
          <div>
-          <h2 className="text-xl font-semibold text-white">Logo</h2>
+          <h2 className="text-xl font-semibold text-white">PlayPitch</h2>
           <div className="mt-2 flex space-x-4">
             <a href="#" className="hover:text-white">📘 Facebook</a>
             <a href="#" className="hover:text-white">📸 Instagram</a>
@@ -21,8 +21,7 @@ const Footer = () => {
           <h2 className="text-xl font-semibold text-white">Liên Kết</h2>
           <ul className="mt-2 space-y-2">
             <li><a href="/" className="hover:text-white">Trang chủ</a></li>
-            <li><a href="/about" className="hover:text-white">Về chúng tôi</a></li>
-            <li><a href="/products" className="hover:text-white">Sản phẩm</a></li>
+            <li><a href="/abouts" className="hover:text-white">Về chúng tôi</a></li>
             <li><a href="/contact" className="hover:text-white">Liên hệ</a></li>
           </ul>
         </div>

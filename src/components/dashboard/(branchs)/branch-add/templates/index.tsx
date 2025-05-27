@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ImageIcon, Trash } from "lucide-react"
 import { useForm } from "react-hook-form"
 import ReactQuill from "react-quill";
@@ -6,16 +7,19 @@ import CustomTimePicker from "../../../../components/CustomTimePicker";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { branchFormAddSchema } from "../../../../../libs/schemas/branch";
 import { BranchPayloadType } from "../../../../../types/api.type";
-import { useState } from "react";
+import {  useState } from "react";
 import { uploadImage } from "../../../../../libs/data/upload";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useCreateBranchMutation } from "../../../../../libs/hooks/branch";
 import { generateId, maxImageBranch } from "../../../../../libs/constan";
 import { generateTextByMinutes } from "../../../../../libs/utils/field";
+import { useAppContext } from "../../../../../libs/context";
+
 
 
 const AddBranchAdminTemplates = () => {
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<BranchPayloadType>({
         resolver: zodResolver(branchFormAddSchema),
         defaultValues: {
@@ -23,6 +27,7 @@ const AddBranchAdminTemplates = () => {
             slug: '',
             address_text: '',
             city: '',
+            district: '',
             ward: '',
             description: '',
             diagramImage: '',
@@ -34,7 +39,19 @@ const AddBranchAdminTemplates = () => {
                 title: ''
             },
             selectTimes: [],
+            status: false
         }
+    })
+    const { locations } = useAppContext()
+    const [districts, setDistricts] = useState<any>({
+        id:'',
+        name:'',
+        children:[]
+    })
+    const [wards, setWards] = useState<any>({
+        id:'',
+        name:'',
+        children:[]
     })
     const [loadingImages, setLoadingImages] = useState(false)
     const [loadingDiagramImage, setLoadingDiagramImage] = useState(false)
@@ -87,8 +104,10 @@ const AddBranchAdminTemplates = () => {
         const newSelectTime = {
             _id: generateId(),
             startTime: startTime,
-            endTime:endTime,
-            text: `${generateTextByMinutes(startTime)} - ${generateTextByMinutes(endTime)}`
+            endTime: endTime,
+            text: `${generateTextByMinutes(startTime)} - ${generateTextByMinutes(endTime)}`,
+            disabled: false,
+            branchId: ''
         }
         setValue('selectTimes', [...formData.selectTimes, newSelectTime])
         setStartTime(0)
@@ -99,7 +118,39 @@ const AddBranchAdminTemplates = () => {
         setValue('selectTimes', newSelectTimes)
     }
     const onSubmit = (data: BranchPayloadType) => {
+
         mutation.mutate(data)
+        console.log(data)
+    }
+
+    const onSelectCity = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedCity = e.target.value
+        setValue('city', selectedCity)
+        setValue('district', '',{shouldDirty:true})
+        setValue('ward', '',{shouldDirty:true})
+        const findCity = locations.find((location: any) => location.name === selectedCity)
+        setDistricts({
+            id:findCity.id,
+            name:findCity.name,
+            children:findCity.data2
+        })  
+        setWards({
+            id:'',
+            name:'',
+            children:[]
+        })
+    }
+
+    const onSelectDistrict = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedDistrict = e.target.value
+        setValue('district', selectedDistrict)
+        setValue('ward', '',{shouldDirty:true})
+        const findDistricts = districts.children.find((dis: any) => dis.name === selectedDistrict) 
+        setWards({
+            id:findDistricts.id,
+            name:findDistricts.name,
+            children:findDistricts.data3
+        })
     }
     return (
         <div >
@@ -124,11 +175,25 @@ const AddBranchAdminTemplates = () => {
                         <div className="flex">
                             <label htmlFor="" className="block w-32 shrink-0 ">Thành phố</label>
                             <div className="w-full">
-                                <select {...register('city')} className="px-3 py-2 border text-sm border-gray-300 w-full">
+                                <select {...register('city')} onChange={(e) => onSelectCity(e) } className="px-3 py-2 border text-sm border-gray-300 w-full">
                                     <option value="">Chọn thành phố...</option>
-                                    <option value="Hà Nội">Hà Nội</option>
+                                    {locations.map((city: { id: string, name: string }) => (
+                                        <option key={city.id} value={city.name}>{city.name}</option>
+                                    ))}
                                 </select>
                                 {errors && errors.city && (<p className="text-sm text-red-500 mt-1">{errors.city.message}</p>)}
+                            </div>
+                        </div>
+                        <div className="flex">
+                            <label htmlFor="" className="block w-32 shrink-0 ">Huyện</label>
+                            <div className="w-full">
+                                <select {...register('district')} onChange={(e) => onSelectDistrict(e)} className="px-3 py-2 border text-sm border-gray-300 w-full">
+                                    <option value="">Chọn huyện...</option>
+                                    {districts?.children.map((district: { id: string, name: string }) => (
+                                        <option key={district.id} value={district.name}>{district.name}</option>
+                                    ))}
+                                </select>
+                                {errors && errors.district && (<p className="text-sm text-red-500 mt-1">{errors.district.message}</p>)}
                             </div>
                         </div>
                         <div className="flex">
@@ -136,7 +201,9 @@ const AddBranchAdminTemplates = () => {
                             <div className="w-full">
                                 <select {...register('ward')} className="px-3 py-2 border text-sm border-gray-300 w-full">
                                     <option value="">Chọn xã...</option>
-                                    <option value="Tiến Xuân">Tiến Xuân</option>
+                                    {wards.children.map((ward: { id: string, name: string }) => (
+                                        <option key={ward.id} value={ward.name}>{ward.name}</option>
+                                    ))}
                                 </select>
                                 {errors && errors.ward && (<p className="text-sm text-red-500 mt-1">{errors.ward.message}</p>)}
                             </div>
@@ -213,7 +280,7 @@ const AddBranchAdminTemplates = () => {
                                                 {item.text}
                                             </button>
                                             <span>-</span>
-                                            <Trash size={20} className=" cursor-pointer hover:text-red-500" onClick={() =>onRemoveSelectTime(item?._id??'')} />
+                                            <Trash size={20} className=" cursor-pointer hover:text-red-500" onClick={() => onRemoveSelectTime(item?._id ?? '')} />
                                         </div>
                                     ))}
                                     {/* <div className="flex items-center gap-1">
@@ -300,7 +367,6 @@ const AddBranchAdminTemplates = () => {
                                 {errors && errors.description && (<p className="text-sm text-red-500 mt-1">{errors.description.message}</p>)}
                             </div>
                         </div>
-
                     </div>
                     <div className="flex justify-end">
                         <button type="submit" className="btn-primary px-4 py-2">Tạo mới cơ sở</button>

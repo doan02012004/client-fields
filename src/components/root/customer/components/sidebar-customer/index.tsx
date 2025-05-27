@@ -1,6 +1,8 @@
 import { ChevronDown, LockIcon, User } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import { NavLink } from "react-router-dom"
+import useIsMobile from "../../../../../libs/hooks/useIsMobile"
+import { useAppContext } from "../../../../../libs/context"
 
 const menu = [
     {
@@ -21,27 +23,31 @@ const menu = [
 ]
 
 const SidebarCustomer = () => {
-    const menuRef = useRef<HTMLUListElement | null>(null)
-    const [height, setHeight] = useState(0)
-    useEffect(() => {
-        if (menuRef.current) {
-            console.log('height', menuRef.current.scrollHeight)
-            setHeight(menuRef.current.scrollHeight)
-        }
-    }, [menuRef])
+    const {user} = useAppContext()
+    const [openMenu,setOpenMenu]  = useState(false)
+    const isMobile = useIsMobile()
 
-   
+
+    const onHandleOpenMenu = (isMobile:boolean) => {
+        if(!isMobile) return
+        setOpenMenu(!openMenu)
+    }
+
     return (
         <section>
-            <div className="border rounded border-gray-200 p-4 shadow">
+            <div className="border rounded bg-white border-gray-200 px-4 pt-4 shadow">
                 <div className="flex items-center justify-between pb-5 border-b border-b-gray-200">
-                    <div className="flex items-center gap-4">
+                    <div onClick={() => onHandleOpenMenu(isMobile)} className="flex items-center gap-4 w-full cursor-pointer lg:cursor-auto">
                         <User className="text-gray-400" />
-                        <h5 className="heading-4 text-gray-600">Bùi Văn Đoàn</h5>
+                        <h5 className="heading-5 lg:heading-4 text-gray-600">{user? user.name: "PlayPitch"}</h5>
                     </div>
-                    <ChevronDown className=" lg:hidden" />
+                    <ChevronDown onClick={() => onHandleOpenMenu(isMobile)} className={`${openMenu && "rotate-180"} transition-all duration-300 cursor-pointer lg:cursor-auto lg:hidden`} />
                 </div>
-                <ul ref={menuRef} className="py-2 space-y-6">
+                <ul className={`
+                space-y-6 overflow-hidden transition-all duration-300 
+                ${isMobile ? `${openMenu ? `py-3 h-44`: 'py-0 h-0'}`
+                : `h-auto py-3`}
+                      `} >
                     {
                         menu.map((item) => (
 

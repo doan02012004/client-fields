@@ -1,19 +1,23 @@
-import { message } from "antd";
+import { Button, message } from "antd";
 import { formatPrice } from "../../../../libs/constan";
 import { useAppContext } from "../../../../libs/context";
 import { CreateOrderFieldMutationFn, CreateOrderPayLoad, CreatePaymentOrderFieldMutationFn } from "../../../../libs/data/order";
-import { useCreateOrderFieldMutation } from "../../../../libs/hooks/order-field";
 import { CheckoutResponse } from "../../../../types/api.type";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const TotalOrderField = ({ infor }: { infor: CheckoutResponse }) => {
   const [loading, setLoading] = useState(false)
-  const { setOpenListCouponCheckout } = useAppContext()
-  const mutation = useCreateOrderFieldMutation()
+  const { setOpenListCouponCheckout, user } = useAppContext()
+  const navigate = useNavigate()
   const onHandleOpenListCoupon = () => {
     setOpenListCouponCheckout(true)
   }
-  const onHandleOrder = async() => {
+  const onHandleOrder = async () => {
+    if (!user) {
+      message.error("Vui lòng đăng nhập")
+    return  navigate('/auth/login')
+    }
     // Handle order logic here
     const payload = {
       fieldId: infor.item._id,
@@ -24,7 +28,7 @@ const TotalOrderField = ({ infor }: { infor: CheckoutResponse }) => {
       totalPrice: infor.price,
       priceDeposit: infor.priceDeposit,
       paymentMethod: "vnpay",
-      userId: "67e150c3d03f95f08682e126" // Replace with actual user ID
+      userId: user?._id // Replace with actual user ID
     } as CreateOrderPayLoad
     setLoading(true)
     try {
@@ -34,18 +38,20 @@ const TotalOrderField = ({ infor }: { infor: CheckoutResponse }) => {
         // Redirect to payment page or handle payment logic here
         const paymentPayload = {
           amount: result.data.priceDeposit,
-          orderCode: result.data.orderCode 
+          orderCode: result.data.orderCode
         }
         const result2 = await CreatePaymentOrderFieldMutationFn(paymentPayload)
-        if (result2.success) { 
+        if (result2.success) {
+          setLoading(false)
           window.location.href = result2.data.paymentUrl
         }
       } else {
         message.error('Đặt sân thất bại')
       }
     } catch (error) {
+      console.log('error',error)
       message.error('Đặt sân thất bại')
-    }finally{
+    } finally {
       setLoading(false)
     }
   };
@@ -87,9 +93,9 @@ const TotalOrderField = ({ infor }: { infor: CheckoutResponse }) => {
           <span>Tổng tiền:</span>
           <span>{formatPrice(infor.priceDeposit)}</span>
         </div>
-        <button onClick={() => onHandleOrder()} className="w-full cursor-pointer mt-4 p-2 bg-black border border-gray-300 text-white rounded hover:bg-white hover:text-black transition-all">
+        <Button loading={loading} onClick={() => onHandleOrder()} className="w-full cursor-pointer mt-4 py-5 bg-black border border-gray-300 text-white rounded hover:bg-white hover:text-black transition-all">
           Thanh toán ngay
-        </button>
+        </Button>
       </div>
     </div>
   );

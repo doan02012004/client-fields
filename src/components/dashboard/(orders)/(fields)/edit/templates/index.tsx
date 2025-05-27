@@ -3,7 +3,7 @@ import { Button, message, Select } from 'antd';
 import { OrderFieldResponseAdmin, StatusOrderField } from '../../../../../../types/api.type';
 import { XCircleIcon } from 'lucide-react';
 import { LoadingOutlined } from '@ant-design/icons';
-import { formatPrice } from '../../../../../../libs/constan';
+import { convertToDateString, formatPrice } from '../../../../../../libs/constan';
 import { updateOrderFieldAdminById } from '../../../../../../libs/data/order';
 import { useNavigate } from 'react-router-dom';
 
@@ -66,7 +66,7 @@ const EditOrderFieldAdminTemplates = ({ loading, orderField }: { loading: boolea
                       </div>
                       <div>
                         <p className="text-gray-600 font-medium">Ngày đặt sân:</p>
-                        <p className="text-gray-800">{orderField.dayBookings[0]}</p>
+                        <p className="text-gray-800">{convertToDateString(orderField.dayBookings[0])}</p>
                       </div>
                       <div>
                         <p className="text-gray-600 font-medium">Tên khách hàng:</p>

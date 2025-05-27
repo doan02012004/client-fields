@@ -25,7 +25,7 @@ const ThankOrderFieldPage = () => {
           Về trang chủ
         </button>
         <button
-          onClick={() => handleRedirect('/list-order')}
+          onClick={() => handleRedirect('/customer/order_list')}
           className="px-6 py-2  btn-gradient-primary text-white rounded-lg"
         >
           Xem đơn đặt sân

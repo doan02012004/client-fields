@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import HeaderActions from "../components/header-actions"
 import HeaderLogo from "../components/header-logo"
 import HeaderMenu from "../components/header-menu"
-import HeaderSearch from "../components/header-search"
 
 
 const Header = () => {

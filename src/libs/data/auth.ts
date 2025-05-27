@@ -1,7 +1,7 @@
 import { LoginPayload, UserType } from "../../types/auth";
 import { config } from "../config";
 import instanceAxios from "../instance";
-import { TypeRegisterSchema } from "../schemas/auth";
+import { ChangePasswordSchemaType, TypeRegisterSchema } from "../schemas/auth";
 
 
 export const LoginFn = async (data:LoginPayload ) => {
@@ -43,5 +43,15 @@ export const getNewAccessToken = async () => {
 
 export const getMeQueryFn = async() => {
     const res = await instanceAxios.get('/users/me')
+    return res.data
+}
+
+export const changePasswordFn = async(userId:string,payload:ChangePasswordSchemaType): Promise<{success:boolean,message:string}> => {
+    const res  = await instanceAxios.put(`/auth/change-password/${userId}`,payload)
+    return res.data
+}
+
+export const LogoutFn = async ():Promise<{success:boolean,message:string}>  => {
+    const res = await instanceAxios.post('/auth/logout')
     return res.data
 }

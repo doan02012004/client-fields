@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
 import useLocalStorage from '../hooks/localStorage'
-import { CheckBookingResponseType } from '../../types/api.type'
+import { CheckBookingResponseType, OrderFieldResponseFieldDetail } from '../../types/api.type'
 import { getMeQueryFn } from '../data/auth'
 import { UserType } from '../../types/auth'
 
@@ -15,7 +15,12 @@ interface AppContextProps {
     accessToken: string | null,
     user: UserType|null,
     loadingAuth: boolean,
+    isOpenRating: boolean,
+    openDiagramField:boolean,
     openChangePasswordForm:boolean,
+    locations: any,
+    setLocations: Dispatch<SetStateAction<any>>,
+    orderFields:OrderFieldResponseFieldDetail[],
     bookingInfo: CheckBookingResponseType | null
     setUser: Dispatch<SetStateAction<any>>,
     setAccessToken: Dispatch<SetStateAction<any>>,
@@ -24,7 +29,10 @@ interface AppContextProps {
     setOpenTodayField: Dispatch<SetStateAction<boolean>>,
     setBookingInfo: Dispatch<SetStateAction<any>>,
     setOpenListCouponCheckout: Dispatch<SetStateAction<boolean>>,
-    setOpenChangePasswordForm:  Dispatch<SetStateAction<boolean>>
+    setOpenChangePasswordForm:  Dispatch<SetStateAction<boolean>>,
+    setIsOpenRating:Dispatch<SetStateAction<boolean>>,
+    setOpenDiagramField:Dispatch<SetStateAction<boolean>>,
+    setOrderFields:Dispatch<SetStateAction<any>>,
 }
 const Context = createContext<AppContextProps | null>(null)
 
@@ -37,11 +45,15 @@ const ContextProvider = ({ children }: ContextProviderProps) => {
     const [openTodayField, setOpenTodayField] = useState<boolean>(false)
     const [openChangePasswordForm, setOpenChangePasswordForm] = useState<boolean>(false)
     const [openListCouponCheckout, setOpenListCouponCheckout] = useState<boolean>(false)
+    const [openDiagramField, setOpenDiagramField ] = useState<boolean>(false)
+     const [isOpenRating, setIsOpenRating] = useState(false)
     const [bookingInfo, setBookingInfo] = useLocalStorage('tt_booking', null)
     const [accessToken, setAccessToken] = useLocalStorage('access_token', null)
     const [user, setUser] = useLocalStorage('user', null)
+    const [locations, setLocations] = useLocalStorage('locations', [])
     const [loadingAuth,setLoadingAuth] = useState(true)
-    // const {data} = useGetMeQueryFn()
+     const [orderFields, setOrderFields] = useState([]) 
+   
 
   // Khi app load, lấy từ localStorage
   useEffect(() => {
@@ -62,12 +74,23 @@ const ContextProvider = ({ children }: ContextProviderProps) => {
     }
   };
 
+  useEffect(() => {
+    if(!locations || locations.length == 0){
+        const fetchLocation = async () => {
+            try {
+                const res = await fetch(`https://esgoo.net/api-tinhthanh/${4}/${0}.htm`)
+                const data = await res.json()
+                setLocations(data.data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchLocation()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[locations])
 
-  // const logout = () => {
-  //   setAccessToken(null);
-  //   setUser(null);
-  //   localStorage.clear();
-  // };
+
 
     return (
         <Context.Provider value={{
@@ -87,7 +110,15 @@ const ContextProvider = ({ children }: ContextProviderProps) => {
             setAccessToken,
             user,
             setUser,
-            loadingAuth
+            loadingAuth,
+            isOpenRating,
+            setIsOpenRating,
+            openDiagramField,
+            setOpenDiagramField,
+            orderFields,
+            setOrderFields,
+            locations,
+            setLocations
         }}>
             {children}
         </Context.Provider>

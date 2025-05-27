@@ -48,7 +48,7 @@ const SkeletonField = () => {
 const ListFieldTemPlates = () => {
   const [branchs, setBranchs] = useState<BranchType[]>([])
 
-  const { data } = useGetAllBranchQuery()
+  const { data } = useGetAllBranchQuery({status:true})
 
   useEffect(() => {
     if (data?.branchs) {

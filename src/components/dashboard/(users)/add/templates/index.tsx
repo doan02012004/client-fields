@@ -36,6 +36,7 @@ const AddUserAdminTemplates = () => {
 
     return (
         <div className="w-full max-w-2xl mx-auto bg-white p-6 rounded shadow">
+            <h1 className="heading-3 text-center mb-6">Thêm người dùng</h1>
             <form onSubmit={handleSubmit(onSubmit)} >
                 <div className="flex flex-col gap-4  lg:gap-8 lg:flex-row">
                     {/* input info  */}

@@ -7,8 +7,10 @@ export const CreateBranchMutationFn = async(data:BranchPayloadType) => {
     return res.data
 }
 
-export const getAllBranchQueryFn = async():Promise<{success:boolean,branchs:BranchType[]}> => {
-    const res = await instanceAxios.get('/branchs')
+export const getAllBranchQueryFn = async(params:{status?:boolean}):Promise<{success:boolean,branchs:BranchType[]}> => {
+    const res = await instanceAxios.get('/branchs',{
+        params:params
+    })
     return res.data
 }
 

@@ -4,7 +4,7 @@ import { useBranchDetail } from '../../../../../libs/zustand/store';
 import { useGetAllOrderFieldByDateQuery } from '../../../../../libs/hooks/field';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { OrderFieldResponseFieldDetail } from '../../../../../types/api.type';
-import { generateNext7Days, generateStatus } from '../../../../../libs/constan';
+import { convertToDateString, dayInWeek, generateNext7Days, generateStatus } from '../../../../../libs/constan';
 
 const ListDateField = ({ branchId }: { branchId: string }) => {
   const { setOpenListDateField } = useBranchDetail()
@@ -46,7 +46,8 @@ const ListDateField = ({ branchId }: { branchId: string }) => {
             listOrderField.map((orderField) => (
               <div key={orderField._id} className="p-3 bg-gray-100 rounded-lg shadow-md">
                 <p className="text-lg font-medium text-gray-800">{orderField.userId.name}</p>
-                <p className="text-gray-600">{orderField.timeId.text}</p>
+                <p className="text-gray-600">{dayInWeek[orderField.dayNumber]} / Ngày {convertToDateString(orderField.dayBookings[0])}</p>
+                <p className="text-gray-600"> {orderField.branchId.name} : {orderField.timeId.text}</p>
                 <span className={` ${generateStatus(orderField.statusBooking).className} px-3 py-1 mt-2 inline-block 0 rounded-lg text-sm font-medium`}>
                  {generateStatus(orderField.statusBooking).text}
                 </span>

@@ -11,5 +11,6 @@ export interface UserType {
     gender:"male" | "female",
     dateOfBirth:string,
     role:"user"|"admin",
+    status:'active'|'inactive',
     deletedAt:string|null
 }

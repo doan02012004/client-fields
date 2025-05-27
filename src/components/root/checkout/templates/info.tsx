@@ -7,22 +7,19 @@ const InforCheckoutField = ({infor}:{infor:CheckoutResponse}) => {
 
 
     const paymentMethods = [
-        { id: "credit_card", name: "vnPay", image: "https://picsum.photos/id/40/200/200" },
-        { id: "bank_transfer", name: "Zalo Pay", image: "https://picsum.photos/id/40/200/200" },
-        { id: "momo", name: "Ví MoMo", image: "https://picsum.photos/id/40/200/200" }
+        { id: "credit_card", name: "vnPay", image: "/assets/images/vnpay.png" },
     ];
 
 
 
     const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0].id);
-    const [selectedBank, setSelectedBank] = useState("");
 
     return (
         <div className=" col-span-12 lg:col-span-8 xl:col-span-9 ">
             {/* Thông tin sân bóng đã order */}
             <div className="mb-8 w-max">
                 <h2 className="text-xl font-bold mb-4">Thông tin sân bóng</h2>
-                <div className='px-4 py-3 border border-gray-100 rounded-lg shadow-md shadow-green-500/20'>
+                <div className='px-4 py-3 border bg-white border-gray-100 rounded-lg shadow-md shadow-green-500/20'>
                     <h4 className='heading-4 mb-4'>{infor.item.branch.name}</h4>
                     <ul className=' space-y-3'>
                         <li className='flex  gap-2 md:items-center'>
@@ -56,7 +53,7 @@ const InforCheckoutField = ({infor}:{infor:CheckoutResponse}) => {
                     {paymentMethods.map((method) => (
                         <button
                             key={method.id}
-                            className={`flex items-center gap-2 cursor-pointer  border rounded-md p-3 w-full sm:w-auto lg:p-4 transition-all ${paymentMethod === method.id ? "border-blue-500" : "border-gray-300"}`}
+                            className={`flex items-center bg-white gap-2 cursor-pointer  border rounded-md p-3 w-full sm:w-auto lg:px-8 lg:py-4 transition-all ${paymentMethod === method.id ? "border-blue-500" : "border-gray-300"}`}
                             onClick={() => setPaymentMethod(method.id)}
                         >
                             <img src={method.image} alt={method.name} className="size-12" />

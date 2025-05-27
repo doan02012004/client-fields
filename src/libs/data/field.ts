@@ -6,8 +6,18 @@ export const CreateFieldMutationFn = async (data:FieldPostPayloadType) => {
     return res.data
 }
 
-export const getAllFieldQueryFn = async():Promise<{success:boolean,data:FieldResponeType[]}> => {
-    const res = await instanceAxios.get('/fields')
+
+export interface ParamsGetAllFields {
+    page?: number
+    limit?: number
+}
+export const getAllFieldQueryFn = async(params:ParamsGetAllFields):Promise<{success:boolean,data:FieldResponeType[],pagination:{page:number,totalPages:number,total:number}}> => {
+    const res = await instanceAxios.get('/fields',{
+        params: {
+            page: params.page || 1,
+            limit: params.limit || 10
+        }
+    })
     return res.data
 }
 
@@ -28,5 +38,10 @@ export const getAllOrderFieldByDateFn = async(branchId:string,date:string): Prom
             date
         }
     })
+    return res.data
+}
+
+export const DeleteFieldMutationFn = async (id:string) => {
+    const res = await instanceAxios.delete(`/fields/remove/${id}`)
     return res.data
 }

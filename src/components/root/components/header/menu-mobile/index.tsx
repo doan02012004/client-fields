@@ -13,19 +13,19 @@ const MenuMobile = () => {
                     <h3 className='font-bold text-xl'>Menu</h3>
                     <X size={30} onClick={() => setOpenMenuHeader(false)} className=' cursor-pointer text-gray-600 hover:text-black' />
                 </div>
-                <ul className='flex flex-col  gap-6 lg:items-center lg:flex-row'>
+                <ul className='flex flex-col  gap-6 mb-20 lg:items-center lg:flex-row'>
                     <li className="group relative uppercase font-semibold text-sm">
                         <Link to={"/"} className="relative text-gray-700 transition hover:text-black">
                             Trang chủ
                             <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-black transition-all duration-300 group-hover:w-full"></span>
                         </Link>
                     </li>
-                    <li className="group relative uppercase font-semibold text-sm">
+                    {/* <li className="group relative uppercase font-semibold text-sm">
                         <Link to={"/list-fields"} className="relative text-gray-700 transition hover:text-black">
                             Sân bóng
                             <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-black transition-all duration-300 group-hover:w-full"></span>
                         </Link>
-                    </li>
+                    </li> */}
                     <li className="group relative uppercase font-semibold text-sm">
                         <Link to={"/"} className="relative text-gray-700 transition hover:text-black">
                             Bài viết
@@ -39,6 +39,7 @@ const MenuMobile = () => {
                         </Link>
                     </li>
                 </ul>
+                <button className='w-full btn-primary py-2 uppercase'>Đăng Xuất</button>
             </div>
             <div className=" lg:hidden">
                 {openMenuHeader && (

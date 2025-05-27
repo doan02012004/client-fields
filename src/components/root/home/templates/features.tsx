@@ -1,11 +1,10 @@
 import { CheckCircle, MapPin, Star } from 'lucide-react'
-import React from 'react'
 
 const FeaturedTemplate = () => {
     return (
 
         <section className="mb-20 container">
-            <h2 className="text-2xl font-bold text-center mb-10">Tại sao chọn VDOAN-SOCCER?</h2>
+            <h2 className="text-2xl font-bold text-center mb-10">Tại sao chọn PLAY PITCH?</h2>
             <div className="grid md:grid-cols-3 gap-6">
                 {[
                     {

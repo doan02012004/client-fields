@@ -9,7 +9,7 @@ import TodayField from '../root/components/today-field/templates'
 
 const RootLayout = () => {
     return (
-        <div className='mb-16 lg:mb-0'>
+        <div className='mb-16 bg-gray-100 lg:mb-0'>
             <Header />
             <div className='pt-20 lg:pt-[100px]'>
                 <Outlet />

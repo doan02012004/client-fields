@@ -1,12 +1,13 @@
 import { create } from 'zustand'
-import { SelectDateType, SelectFieldType } from '../../types/api.type'
+import { BranchDetailsType, SelectDateType, SelectFieldType } from '../../types/api.type'
 
 type State = {
     image: string
     selectedField:SelectFieldType | null,
     selectedDate:SelectDateType | null,
     selectedTimeId:string|null,
-    openListDateField:boolean
+    openListDateField:boolean,
+    branchDetail:BranchDetailsType|null
   }
   
 type Action = {
@@ -15,12 +16,14 @@ type Action = {
     setSelectedDate:(date: State['selectedDate']) => void,
     setSelectedTime:(selectedTimeId:State['selectedTimeId']) => void,
     setOpenListDateField:(isOpenListDateField:State['openListDateField']) => void,
+    setBranchDetail:(data:State['branchDetail']) => void,
   }
   
 
 export const useBranchDetail = create<State & Action>((set) => ({
     image: '',
     selectedField:null,
+    branchDetail:null,
     selectedDate:null,
     selectedTimeId:null,
     openListDateField:false,
@@ -28,5 +31,7 @@ export const useBranchDetail = create<State & Action>((set) => ({
     setSelectedField:(field) => set(() => ({ selectedField: field, selectedDate:null, selectedTimeId:null })),
     setSelectedDate:(date) => set(() => ({ selectedDate: date })),
     setSelectedTime: (selectedTimeId) => set(() => ({ selectedTimeId:selectedTimeId})),
-    setOpenListDateField: (isOpenListDateField) => set(() => ({openListDateField:isOpenListDateField}))
+    setOpenListDateField: (isOpenListDateField) => set(() => ({openListDateField:isOpenListDateField})),
+    setBranchDetail:(data) => set(() => ({branchDetail:data}))
   }))
+

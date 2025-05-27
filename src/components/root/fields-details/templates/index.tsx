@@ -5,15 +5,12 @@ import CustomLoadingWebsite from "../../components/custom-loading"
 
 import GallerysFields from "./gallery"
 import InforFields from "./info"
-import { BranchDetailsType } from "../../../../types/api.type"
-import ServicesTemplates from "../../components/services/templates"
 import ListDateField from "../components/list-date-field"
 
 
 const FieldsDetailsTemplates = ({ slug }: { slug?: string }) => {
     const [isFetchingData, setIsFetchingData] = useState(true)
-    const { selectedField, selectedDate, selectedTimeId,openListDateField } = useBranchDetail()
-    const [branchDetail, setBranchDetail] = useState<BranchDetailsType | null>(null)
+    const { selectedField, selectedDate, branchDetail, setBranchDetail, selectedTimeId, openListDateField } = useBranchDetail()
     const { data, isError } = useGetBranchBySlugQuery({ slug: slug ?? '', selectedFieldId: selectedField?._id ?? null, selectedDate: selectedDate?.date, selectedTimeId: selectedTimeId })
 
     useEffect(() => {
@@ -21,14 +18,27 @@ const FieldsDetailsTemplates = ({ slug }: { slug?: string }) => {
             setIsFetchingData(false)
             setBranchDetail(data.data)
         }
-    }, [data])
+        if (isError) {
+            setIsFetchingData(false)
+        }
+    }, [data, isError])
 
     useEffect(() => {
-        window.scrollTo({top:0,behavior:"smooth"})
-    },[slug])
-    
+        if (branchDetail) {
+            document.title = `${branchDetail?.item?.name} - Play Pitch`
+        }
+    }, [branchDetail])
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" })
+    }, [slug])
+
     if (isFetchingData) return <CustomLoadingWebsite />
-    if (isError) return <div>Error...</div>
+    if (isError) return (
+        <div>
+            <h1 className="text-2xl font-bold text-center mt-10">Không tìm thấy thông tin sân bóng</h1>
+            <p className="text-center mt-4">Vui lòng kiểm tra lại đường dẫn hoặc quay lại trang chủ.</p>
+        </div>
+    )
     return (
         <>
             <div className=" relative mb-20">
@@ -44,13 +54,13 @@ const FieldsDetailsTemplates = ({ slug }: { slug?: string }) => {
                 </section>
                 {/* <SuggestFieldsDetails /> */}
             </div>
-          {
-            openListDateField && (
-                <ListDateField branchId={branchDetail?.item?._id ?? ''} />
-            )
-          }
-            <ServicesTemplates />
-            
+            {
+                openListDateField && (
+                    <ListDateField branchId={branchDetail?.item?._id ?? ''} />
+                )
+            }
+
+
         </>
     )
 }

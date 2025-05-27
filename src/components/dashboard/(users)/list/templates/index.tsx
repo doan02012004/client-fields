@@ -1,41 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Tag, Button, Modal, message, Pagination } from 'antd';
+import { useEffect, useState } from 'react';
+import { Table, Tag, Button, Modal, Pagination } from 'antd';
 import { EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { UserType } from '../../../../../types/auth';
-import { useGetAllUserQuery } from '../../../../../libs/hooks/user';
+import { useGetAllUserQuery, useRemoveUserByIdMutation } from '../../../../../libs/hooks/user';
+import { useNavigate } from 'react-router-dom';
 
 const { confirm } = Modal;
 
 
 
 const ListUserAdminTemplates = () => {
-
     const { data, isLoading } = useGetAllUserQuery()
+    const mutation = useRemoveUserByIdMutation()
     const [users, setUsers] = useState<UserType[]>([]);
     const [pagination, setPagination] = useState<{ page: number, totalPages: number, total: number }>({
         page: 1,
         totalPages: 1,
         total: 0
     })
+    const navigate = useNavigate()
     useEffect(() => {
         if (data && data.success) {
             setUsers(data.data)
             setPagination(pagination)
         }
     }, [data])
-    const handleDelete = (key: string) => {
+
+    const handleDelete = (userId: string) => {
         confirm({
             title: 'Bạn có chắc muốn xóa người dùng này?',
             icon: <ExclamationCircleOutlined />,
             onOk() {
-                //   setUsers(prev => prev.filter(user => user.key !== key));
-                message.success('Đã xóa người dùng');
+                mutation.mutate(userId)
             },
         });
     };
 
-    const handleEdit = (key: string) => {
-        message.info(`Bạn vừa bấm sửa người dùng có key: ${key}`);
+    const handleEdit = (id: string) => {
+        navigate(`/admin/users/edit/${id}`)
     };
 
     const columns = [
@@ -62,14 +64,14 @@ const ListUserAdminTemplates = () => {
             dataIndex: 'role',
             key: 'role',
         },
-        //   {
-        //     title: 'Trạng thái',
-        //     dataIndex: 'status',
-        //     key: 'status',
-        //     render: (status: UserType['status']) => (
-        //       <Tag color={status === 'Hoạt động' ? 'green' : 'red'}>{status}</Tag>
-        //     ),
-        //   },
+          {
+            title: 'Trạng thái',
+            dataIndex: 'status',
+            key: 'status',
+            render: (status: UserType['status']) => (
+              <Tag color={status === 'active' ? 'green' : 'red'}>{status=='active'?"Hoạt động":"Ngừng hoạt động"}</Tag>
+            ),
+          },
         {
             title: 'Hành động',
             key: 'action',
@@ -78,14 +80,14 @@ const ListUserAdminTemplates = () => {
                 <div className="flex gap-2">
                     <Button
                         icon={<EditOutlined />}
-                        onClick={() => handleEdit(record.key)}
+                        onClick={() => handleEdit(record._id)}
                         className="bg-blue-500 text-white hover:bg-blue-600"
                     >
                         Sửa
                     </Button>
                     <Button
                         icon={<DeleteOutlined />}
-                        onClick={() => handleDelete(record.key)}
+                        onClick={() => handleDelete(record._id)}
                         danger
                     >
                         Xóa

@@ -69,6 +69,12 @@ const SidebarAdmin = () => {
                 defaultSelectedKeys={['3']}
                 items={itemsMenuSidebar}
             />
+            <div className="absolute bottom-3  w-full  text-center py-2">
+                <Link to={'/'} className="flex items-center justify-center gap-2 text-white">
+                    <UserOutlined />
+                    <span className="text-sm">Quay lại website</span>
+                </Link>
+            </div>
         </Sider>
     )
 }

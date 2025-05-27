@@ -23,10 +23,10 @@ export const useCreateBranchMutation = () => {
     })
 }
 
-export const useGetAllBranchQuery = () => {
+export const useGetAllBranchQuery = (params:{status?:boolean}) => {
     return useQuery({
         queryKey,
-        queryFn: () => getAllBranchQueryFn()
+        queryFn: () => getAllBranchQueryFn(params)
     })
 }
 
@@ -43,8 +43,9 @@ export const useUpdateBranchMutation = () => {
            navigate('/admin/branchs')
            queryClient.invalidateQueries({queryKey})
         },
-        onError: (error) => {
-            message.error('Cập nhật thất bại !')
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        onError: (error:any) => {
+            message.error(error.response.data.message)
             console.log('data-error',error)
         },
     })
@@ -60,6 +61,7 @@ export const useGetBranchBySlugQuery = (query:queryGetBranchBySlugType) => {
     const customQueryKey = [...queryKey,query]
     return useQuery({
         queryKey:customQueryKey,
-        queryFn: () => getBranchBySlugWebQueryFn(query)
+        queryFn: () => getBranchBySlugWebQueryFn(query),
+          retry: 3, // ✅ Retry tối đa 3 lần sau khi call lỗi
     })
 }

@@ -25,6 +25,9 @@ import CustomerInfoPage from '../app/(root)/customer/info'
 import CustomerOrderDetailPage from '../app/(root)/customer/order_detail'
 import ListUserAdminPage from '../app/(dashboard)/(users)/list'
 import AddUserAdminPage from '../app/(dashboard)/(users)/add'
+import EditUserAdminPage from '../app/(dashboard)/(users)/edit'
+import PrivateAdminPage from './private/dashboard'
+import FailOrderPage from '../app/(root)/fail'
 
 const RoutesApp = () => {
     return (
@@ -43,7 +46,7 @@ const RoutesApp = () => {
                 <Route path='field-detail/:slug' element={<FieldsDetailsPage />} />
                 <Route path='checkout' element={<CheckoutPage />} />
                 <Route path='thanks' element={<ThankOrderFieldPage />} />
-
+                <Route path='fail' element={<FailOrderPage />} />
                 {/* customer  */}
                 <Route path='customer' element={<CustomerLayout />} >
                     <Route index element={<Navigate to="info" />} />
@@ -54,7 +57,7 @@ const RoutesApp = () => {
             </Route>
 
             {/* Admin  */}
-            <Route path='admin' element={<AdminLayout />} >
+            <Route path='admin' element={<PrivateAdminPage><AdminLayout /></PrivateAdminPage>} >
                 <Route index element={<DashboardPage />} />
                 <Route path='fields' element={<FieldsAdminPage />} />
                 <Route path='fields/add' element={<AddFieldAdminPage />} />
@@ -68,6 +71,7 @@ const RoutesApp = () => {
                 {/* user  */}
                 <Route path='users' element={<ListUserAdminPage />} />
                 <Route path='users/add' element={<AddUserAdminPage />} />
+                <Route path='users/edit/:userId' element={<EditUserAdminPage />} />
             </Route>
         </Routes>
     )

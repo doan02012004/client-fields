@@ -57,7 +57,7 @@ export const generateStatus = (status: string): { className: string, text: strin
             dataRetur.className = 'text-red-500 bg-red-500/20';
             dataRetur.text = 'Đã hoàn tiền';
             break;
-        case 'comfirmed':
+        case 'confirmed':
             dataRetur.className = 'text-green-500 bg-green-500/20';
             dataRetur.text = 'Đã xác nhận';
             break;
@@ -88,4 +88,8 @@ export const dayInWeek = [
 
 export const convertToDateString = (isoString: string): string => {
     return dayjs(isoString).format('DD-MM-YYYY')
+  }
+
+export  const formatDate = (isoDate:string) => {
+    return new Date(isoDate).toISOString().split('T')[0]; // "2025-05-08"
   }

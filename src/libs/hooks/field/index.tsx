@@ -1,5 +1,5 @@
 import { MutationKey, QueryKey, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CreateFieldMutationFn, getAllFieldQueryFn, getAllOrderFieldByDateFn, UpdateFieldMutationFn } from "../../data/field";
+import { CreateFieldMutationFn, DeleteFieldMutationFn, getAllFieldQueryFn, getAllOrderFieldByDateFn, ParamsGetAllFields, UpdateFieldMutationFn } from "../../data/field";
 import { useNavigate } from "react-router-dom";
 import { FieldPostPayloadType } from "../../../types/api.type";
 import { message } from "antd";
@@ -7,10 +7,10 @@ import { message } from "antd";
 
 const queryKey: QueryKey = ['fields']
 
-export const useGetAllFieldsQuery = () => {
+export const useGetAllFieldsQuery = (params:ParamsGetAllFields) => {
     return useQuery({
-        queryKey,
-        queryFn: () => getAllFieldQueryFn()
+        queryKey: [...queryKey, params],
+        queryFn: () => getAllFieldQueryFn(params)
     })
 }
 
@@ -57,5 +57,22 @@ export const useGetAllOrderFieldByDateQuery = ({branchId,date}:{branchId:string,
     return useQuery({
         queryKey,
         queryFn: () => getAllOrderFieldByDateFn(branchId,date)
+    })
+}
+
+export const useRemoveFieldMutation = () => {
+    const queryClient = useQueryClient()
+    const mutationKey: MutationKey = ['remove_field']
+    return useMutation({
+        mutationKey,
+        mutationFn: (id:string) => DeleteFieldMutationFn(id),
+        onSuccess: () => {
+            message.success('Xóa sân bóng thành công !')
+            queryClient.invalidateQueries({ queryKey })
+        },
+        onError: (error) => {
+            message.error('Xóa sân bóng thất bại !')
+            console.log('data-error', error)
+        },
     })
 }

@@ -16,7 +16,6 @@ export const fieldFormAddSchema = z.object({
     branchId: z.string().min(3),
     images: z.array(z.string()).min(1),
     description: z.string().min(3),
-    typeFields:z.array(z.string()).min(1),
     size: z.object({
         width: z.number().min(1),
         length: z.number().min(1)

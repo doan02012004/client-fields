@@ -9,7 +9,7 @@ const HeaderMobile = () => {
                 <MenuMobileItem to="/" icon={<HomeIcon className="h-6 w-6" />} />
                 <MenuMobileItem to="/cart" icon={<HeartIcon className="h-6 w-6" />} />
                 <MenuMobileItem to="/contact" icon={<MessageSquare className="h-6 w-6" />} />
-                <MenuMobileItem to="/profile" icon={<UserIcon className="h-6 w-6" />} />
+                <MenuMobileItem to="/customer/info" icon={<UserIcon className="h-6 w-6" />} />
             </div>
         </div>
     )

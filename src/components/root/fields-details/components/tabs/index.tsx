@@ -1,8 +1,16 @@
 import { useState } from "react";
+import { useGetCommentsByBranchIdQuery, useToggleLikeCommentsByCommentIdMuation } from "../../../../../libs/hooks/comment-field";
+import CommentFieldItem from "../comment";
+import { useBranchDetail } from "../../../../../libs/zustand/store";
 
 const TabsFieldDetails = () => {
     const [activeTab, setActiveTab] = useState("description");
-
+    const {branchDetail} = useBranchDetail()
+    const { data: commentsResult } = useGetCommentsByBranchIdQuery(branchDetail?.item?._id)
+    const toggleLikeMutation = useToggleLikeCommentsByCommentIdMuation()
+    const onHandleToggleLike = (commentId:string) => {
+        toggleLikeMutation.mutate(commentId)
+    }
     return (
         <div className="w-full">
             <div className="border-b border-gray-200">
@@ -24,15 +32,26 @@ const TabsFieldDetails = () => {
 
             <div className="p-4">
                 {activeTab === "description" ? (
-                    <p className="text-gray-700">Đây là phần mô tả về sân bóng. Bạn có thể thêm thông tin chi tiết tại đây.</p>
+                    <p className="text-gray-700" dangerouslySetInnerHTML={{
+                        __html:branchDetail?.item.description || "<p>Chưa có mô tả nào</p>",
+                    }}></p>
                 ) : (
-                    <div>
-                        <p className="text-gray-700">Bình luận về sân bóng này:</p>
-                        <ul className="mt-2 space-y-2">
-                            <li className="p-2 border rounded-md">Người dùng A: Sân rất đẹp!</li>
-                            <li className="p-2 border rounded-md">Người dùng B: Giá hợp lý, chất lượng tốt.</li>
-                        </ul>
+                   <>
+                   {commentsResult && commentsResult.success && (
+                     <div>
+                        <div className=" space-y-4 mb-4">
+                            {commentsResult.data.length > 0 && commentsResult.data.map((item) => (
+                                <CommentFieldItem onHandleToggleLike={onHandleToggleLike} item={item} key={item._id} />
+                            ))}
+
+                             {commentsResult.data.length ==0 && (<p className="text-center">Chưa có bình luận nào !</p>)}
+                        </div>
+                        {/* <div className="flex justify-center items-center">
+                            <Pagination />
+                        </div> */}
                     </div>
+                   )}
+                   </>
                 )}
             </div>
         </div>

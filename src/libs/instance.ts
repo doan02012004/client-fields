@@ -12,6 +12,7 @@ const instanceAxios = axios.create({
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 instanceAxios.interceptors.request.use(async (config) => {
     const accessToken = JSON.parse(localStorage.getItem('access_token') || 'null');
+    console.log(accessToken)
     if (!accessToken) return config;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const decoded = jwtDecode(accessToken) as any;
@@ -45,7 +46,7 @@ instanceAxios.interceptors.response.use(function (response) {
         try {
             // gọi api để refeshToken
             const data = await getNewAccessToken()
-            localStorage.setItem('access_token', data.accessToken)
+            localStorage.setItem('access_token', JSON.stringify(data.accessToken))
             // // Cập nhật accessToken mới vào localStorage hoặc state
             instanceAxios.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
             // Cập nhật lại accessToken trong header của request cũ và thử lại request

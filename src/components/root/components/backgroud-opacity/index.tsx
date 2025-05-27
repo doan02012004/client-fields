@@ -3,7 +3,7 @@ import { useBranchDetail } from "../../../../libs/zustand/store"
 
 
 const BackgroundOpacity = () => {
-    const {setOpenFilterFields,setOpenMenuHeader,setOpenTodayField, setOpenListCouponCheckout,setOpenChangePasswordForm} = useAppContext()
+    const {setOpenFilterFields,setIsOpenRating,setOpenMenuHeader,setOpenDiagramField,setOpenTodayField, setOpenListCouponCheckout,setOpenChangePasswordForm} = useAppContext()
     const {setOpenListDateField} = useBranchDetail()
     const onHandleClick = () => {
         setOpenFilterFields(false)
@@ -12,6 +12,8 @@ const BackgroundOpacity = () => {
         setOpenListCouponCheckout(false)   
         setOpenListDateField(false) 
         setOpenChangePasswordForm(false)
+        setIsOpenRating(false)
+        setOpenDiagramField(false)
     }
   return (
     <div onClick={() => onHandleClick()} className={`fixed z-[45] h-full w-full inset-0 bg-black/35 `}>

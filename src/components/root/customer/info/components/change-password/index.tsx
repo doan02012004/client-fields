@@ -1,29 +1,57 @@
-import React from "react";
+
 import { useForm } from "react-hook-form";
 import BackgroundOpacity from "../../../../components/backgroud-opacity";
 import { useAppContext } from "../../../../../../libs/context";
+import { changePasswordSchema, ChangePasswordSchemaType } from "../../../../../../libs/schemas/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button, message } from "antd";
+import { changePasswordFn } from "../../../../../../libs/data/auth";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-type FormData = {
-  currentPassword: string;
-  newPassword: string;
-  confirmNewPassword: string;
-};
+
 
 const ChangePasswordForm = () => {
-    const {setOpenChangePasswordForm} = useAppContext()
+    const {setOpenChangePasswordForm,user} = useAppContext()
+    const navigate = useNavigate()
+    const [loading,setLoading] = useState(false)
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<ChangePasswordSchemaType>({
+    resolver:zodResolver(changePasswordSchema)
+  });
 
   const onCloseChangePasswordForm = () => {
     setOpenChangePasswordForm(false)
   }
-  const onSubmit = (data: FormData) => {
-    console.log("Dữ liệu gửi đi:", data);
-    // Gọi API đổi mật khẩu ở đây
+  const onSubmit = async(data: ChangePasswordSchemaType) => {
+    
+    if(!user){
+      setOpenChangePasswordForm(false)
+     return navigate('/auth/login')
+    }
+    setLoading(true)
+    try {
+      const result = await changePasswordFn(user._id,data)
+      if(result && result.success){
+        message.success(result.message)
+        setOpenChangePasswordForm(false)
+      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error:any) {
+      if(error.status == 401){
+       setLoading(false)
+       setOpenChangePasswordForm(false)
+        return navigate('/auth/login')
+      }
+      message.error(error.response.data.message ?? 'Thay đổi mật khẩu thất bại')
+      console.log(error)
+    }finally{
+     setLoading(false)
+    }
   };
 
   const newPassword = watch("newPassword");
@@ -80,12 +108,13 @@ const ChangePasswordForm = () => {
           )}
         </div>
 
-        <button
-          type="submit"
-          className="w-full bg-black text-white py-2 rounded-full mt-4 hover:bg-gray-800 transition"
+        <Button
+          htmlType="submit"
+          loading={loading}
+          className="w-full bg-black text-white py-5 rounded-full hover:bg-gray-800 transition"
         >
           CẬP NHẬT
-        </button>
+        </Button>
       </form>
     </div>
     <BackgroundOpacity />

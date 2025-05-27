@@ -62,7 +62,7 @@ export const CreatePaymentOrderFieldMutationFn = async (payload: PayloadCreatePa
 export type ParamsGetAllOrderFieldAdmin = {
     page: number,   
     limit: number,
-    statusBooking?: 'unpaid' | 'paid' | 'cancel',
+    statusBooking: StatusOrderField|'all',
     date?: string
 }
 
@@ -96,3 +96,9 @@ export const getOrderFieldDetailWebFn = async (orderCode:string): Promise<{succe
     const res = await instanceAxios.get(`/order-field/web/detail/${orderCode}`)
     return res.data
 }
+
+export const getOrdersSidebarWebFn = async (): Promise<{success:boolean,data:OrderFieldResponseFieldDetail[]}> => {
+    const res = await instanceAxios.get(`/order-field/web/date-list`)
+    return res.data
+}
+

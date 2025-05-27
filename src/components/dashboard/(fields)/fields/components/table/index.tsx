@@ -1,7 +1,8 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Button, Table, Tag } from 'antd'
+import { Button, Popconfirm, Table, Tag } from 'antd'
 import { BranchType, FieldResponeType } from '../../../../../../types/api.type';
 import { Link } from 'react-router-dom';
+import { useRemoveFieldMutation } from '../../../../../../libs/hooks/field';
 
 
 type TableFieldsAdminProps = {
@@ -10,6 +11,10 @@ type TableFieldsAdminProps = {
 
 const TableFieldsAdmin = ({ fields }: TableFieldsAdminProps) => {
 
+  const mutation = useRemoveFieldMutation()
+  const onRemoveField = (fieldId: string) => {
+   mutation.mutate(fieldId)
+  }
 
   const columns = [
     {
@@ -50,7 +55,13 @@ const TableFieldsAdmin = ({ fields }: TableFieldsAdminProps) => {
       render: (_id:string) => (
         <div className="flex gap-2">
           <Link className='block' to={`/admin/fields/edit/${_id}`}><Button icon={<EditOutlined />} /></Link>
-          <Button icon={<DeleteOutlined />} danger />
+          <Popconfirm
+            title="Bạn có chắc chắn muốn xóa sân này?"
+            onConfirm={() => onRemoveField(_id)}
+            okText="Có"
+            cancelText="Không">
+              <Button icon={<DeleteOutlined />} danger />
+            </Popconfirm>
         </div>
       ),
     },

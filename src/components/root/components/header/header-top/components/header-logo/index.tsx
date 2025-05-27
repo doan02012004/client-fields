@@ -6,7 +6,7 @@ const HeaderLogo = () => {
     <div className=" shrink-0">
       <Link to={'/'}>
         <h1 className='font-extrabold text-2xl/normal'>
-          vDoan-Soccer
+          PlayPitch
         </h1>
       </Link>
     </div>

@@ -37,6 +37,7 @@ export interface BranchPayloadType {
     images: string[]
     diagramImage: string,
     city: string,
+    district: string,
     ward: string
     description: string
     phoneNumber: string
@@ -45,7 +46,8 @@ export interface BranchPayloadType {
         endTime: number // dạng phút
         title: string
     },
-    selectTimes: SelectTimeBranchType[]
+    selectTimes: SelectTimeBranchType[],
+    status:boolean
 }
 
 export type BranchType = BranchPayloadType & {
@@ -113,7 +115,6 @@ export interface FieldPostPayloadType {
     slug: string,
     branchId: string,
     images: string[],
-    typeFields: string[],
     rangeTimes: RangeTime[]
     description: string,
     status: boolean,
@@ -183,6 +184,8 @@ export interface OrderFieldResponse {
     statusBooking: StatusOrderField,
     paymentMethod: 'vnpay' | 'cash',
     createdAt: string,
+    isRating:boolean,
+    paymentDate:string|null
 }
 
 export type OrderFieldResponseAdmin = Omit<OrderFieldResponse,'timeId'> & {

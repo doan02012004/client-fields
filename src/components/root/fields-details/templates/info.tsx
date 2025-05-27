@@ -51,7 +51,7 @@ const InforFields = ({ data }: { data: BranchDetailsType | null }) => {
             <Star key={i} size={20} fill={i < field.rating ? "#facc15" : "#e5e7eb"} stroke="none" />
           ))} */}
         </span>
-        <span className="text-gray-600">({data?.item.rate} đánh giá)</span>
+        {/* <span className="text-gray-600">({data?.item.rate} đánh giá)</span> */}
       </div>
 
 

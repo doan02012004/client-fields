@@ -1,7 +1,5 @@
-
 import { useFormContext, useWatch } from "react-hook-form"
 import { useGetAllBranchQuery } from "../../../../../libs/hooks/branch"
-import { useGetAllTypeFieldsQuery } from "../../../../../libs/hooks/type-field"
 import { FieldPostPayloadType } from "../../../../../types/api.type"
 import ReactQuill from "react-quill"
 import { LoadingOutlined } from "@ant-design/icons"
@@ -9,21 +7,12 @@ import { ImageIcon, Trash } from "lucide-react"
 import { maxImageField } from "../../../../../libs/constan"
 import { useState } from "react"
 import { uploadImage } from "../../../../../libs/data/upload"
-import TypeFieldFormAdd from "../../field-add/components/type-field-form"
-
-
 
 const InforBaseFieldEdit = () => {
     const { register, formState: { errors }, setValue, control } = useFormContext<FieldPostPayloadType>()
     const [loadingImages, setLoadingImages] = useState(false)
-    const { data } = useGetAllBranchQuery()
-    const { data: typeFieldsData } = useGetAllTypeFieldsQuery()
+    const { data } = useGetAllBranchQuery({})
     const branchs = data?.branchs || []
-    const typeFields = typeFieldsData?.data || []
-    const typeFieldsWatch = useWatch({
-        control,
-        name: "typeFields",
-    })
     const descriptionWatch = useWatch({
         control,
         name: "description",
@@ -135,7 +124,6 @@ const InforBaseFieldEdit = () => {
                                 {errors && errors.branchId && (<p className="text-sm text-red-500 mt-1">{errors.branchId.message}</p>)}
                             </div>
                         </div>
-                        <TypeFieldFormAdd setValue={setValue} errors={errors} value={typeFieldsWatch} typeFields={typeFields} />
                         <div className="flex">
                             <label htmlFor="" className="block w-32 shrink-0 ">Mô tả sân bóng</label>
                             <div className="w-full">
