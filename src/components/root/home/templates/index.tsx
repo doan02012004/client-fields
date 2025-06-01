@@ -15,10 +15,10 @@ const HomeTemplates = () => {
   return (
     <>
       <BannerHomePage />
-      <FeaturedTemplate />
       <ListFieldTemPlates />
+      <FeaturedTemplate />
       <TestimonialsTemplate />
-      <ServicesTemplates />
+      {/* <ServicesTemplates /> */}
     </>
   )
 }

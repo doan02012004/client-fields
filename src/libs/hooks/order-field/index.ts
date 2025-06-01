@@ -7,7 +7,8 @@ const queryKey: QueryKey = ['checkout']
 export const useGetCheckoutOrderFieldQuery = (params:ParamsGetCheckout) => {
     return useQuery({
         queryKey:[...queryKey,params],
-        queryFn: () => getCheckout(params)
+        queryFn: () => getCheckout(params),
+        retry:false
     })
 }
 

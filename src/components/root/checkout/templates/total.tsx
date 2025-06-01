@@ -63,8 +63,8 @@ const TotalOrderField = ({ infor }: { infor: CheckoutResponse }) => {
         <div className="rounded-lg overflow-hidden flex w-ma  border border-gray-200 shadow-sm shadow-gray-400 mb-3">
           <div className="h-32 bg-green-500 flex justify-center items-center px-6 *:text-white">
             <div>
-              <h4 className="heading-4">vDoan</h4>
-              <h5 className="heading-5">soccer</h5>
+              <h4 className="heading-4">Play</h4>
+              <h5 className="heading-5">Picth</h5>
             </div>
           </div>
           <div className="flex flex-col justify-between px-4 py-2 min-w-48">

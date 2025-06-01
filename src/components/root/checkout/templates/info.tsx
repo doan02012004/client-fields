@@ -17,7 +17,7 @@ const InforCheckoutField = ({infor}:{infor:CheckoutResponse}) => {
     return (
         <div className=" col-span-12 lg:col-span-8 xl:col-span-9 ">
             {/* Thông tin sân bóng đã order */}
-            <div className="mb-8 w-max">
+            <div className="mb-8 w-full md:w-max">
                 <h2 className="text-xl font-bold mb-4">Thông tin sân bóng</h2>
                 <div className='px-4 py-3 border bg-white border-gray-100 rounded-lg shadow-md shadow-green-500/20'>
                     <h4 className='heading-4 mb-4'>{infor.item.branch.name}</h4>

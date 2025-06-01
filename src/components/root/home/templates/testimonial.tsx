@@ -10,15 +10,15 @@ const TestimonialsTemplate = () => {
       {[
         {
           quote: "Chỉ mất 1 phút là đặt được sân, quá tiện!",
-          name: "Anh Hoàng",
+          name: "Lionel Messi",
           location: "Quận 3",
-          avatar: "https://picsum.photos/id/30/200/200",
+          avatar: "./assets/images/messi.jpg",
         },
         {
           quote: "Không còn lo gọi điện nhiều nơi để hỏi sân trống.",
-          name: "Chị Mai",
+          name: "Cristiano Ronaldo",
           location: "Hà Nội",
-          avatar: "https://picsum.photos/id/34/200/200",
+            avatar: "./assets/images/ronaldo.jpg",
         },
       ].map((item, index) => (
         <div key={index} className="relative bg-white border border-gray-200 rounded-xl shadow-lg p-6">

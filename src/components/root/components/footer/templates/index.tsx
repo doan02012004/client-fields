@@ -29,7 +29,7 @@ const Footer = () => {
         {/* Cột 1: Thông tin liên hệ */}
         <div>
           <h2 className="text-xl font-semibold text-white">Liên Hệ</h2>
-          <p className="mt-2">📍 Địa chỉ: 123 Đường ABC, TP.HCM</p>
+          <p className="mt-2">📍 Địa chỉ: Nhổn, Nam Từ Liêm, Hà Nội</p>
           <p>📞 Điện thoại: 0123-456-789</p>
           <p>📧 Email: contact@example.com</p>
         </div>
@@ -37,7 +37,7 @@ const Footer = () => {
 
       {/* Dòng bản quyền */}
       <div className="mt-8 border-t border-gray-700 pt-4 text-center text-sm">
-        © {new Date().getFullYear()} Bản quyền thuộc về <span className="text-white">Công Ty XYZ</span>
+        © {new Date().getFullYear()} Bản quyền thuộc về <span className="text-white">PlayPitch</span>
       </div>
     </div>
   </footer>

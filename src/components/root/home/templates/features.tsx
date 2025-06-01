@@ -20,7 +20,7 @@ const FeaturedTemplate = () => {
                         desc: "Giảm giá lần đầu đặt sân, combo thuê sân – bóng – nước."
                     },
                 ].map((item, idx) => (
-                    <div key={idx} className="text-center p-6 border border-gray-200 bg-white rounded-xl shadow-sm">
+                    <div key={idx} className="text-center p-6 border border-gray-200 bg-gray-200  rounded-xl shadow-sm">
                         <div className="mb-4 flex justify-center">{item.icon}</div>
                         <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
                         <p>{item.desc}</p>
